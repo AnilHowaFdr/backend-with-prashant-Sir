@@ -1,4 +1,6 @@
+const { create } = require("domain");
 const http = require("http");
+const fs = require("fs");
 
 const server = http.createServer((req, res) => {
   console.log(req.url, req.method, req.headers);
@@ -23,6 +25,12 @@ const server = http.createServer((req, res) => {
     res.write("</body>");
     res.write("</html>");
     return res.end();
+  } else if (
+    req.url.toLowerCase() === "/submit-details" &&
+    req.method == "POST"
+  ) {
+    fs.writeFileSync("user.txt", "anil");
+    res.statusCode = 302;
   }
   res.setHeader("Content-Type", "text/html");
   res.write("<html>");
